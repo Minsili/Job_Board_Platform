@@ -7,6 +7,34 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --dark-green: #006400;
+        }
+        
+        .navbar-dark {
+            background-color: var(--dark-green) !important;
+        }
+
+        .btn-primary {
+            background-color: var(--dark-green);
+            border-color: var(--dark-green);
+        }
+
+        .btn-primary:hover {
+            background-color: #004d00;
+            border-color: #004d00;
+        }
+
+        .footer-dark {
+            background-color: var(--dark-green);
+        }
+    </style>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -14,7 +42,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <header class="bg-dark">
+    <header class="navbar-dark">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <a class="navbar-brand" href="{% url 'home' %}">Job Board</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,32 +51,34 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_profile' %}"><i class="bi bi-person"></i> {{ user.username }}</a>
+                        </li>
                         {% if user.user_type == 'employer' %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'application_list' %}">Applications</a>
+                                <a class="nav-link" href="{% url 'application_list' %}"><i class="bi bi-file-earmark-text"></i> Applications</a>
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'view_profile' %}">{{ user.username }}</a>
+                            <a class="nav-link" href="{% url 'job_list' %}"><i class="bi bi-briefcase"></i> Jobs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'job_list' %}">Jobs</a>
+                            <a class="nav-link" href="{% url 'company_list' %}"><i class="bi bi-building"></i> Companies</a>
                         </li>
+                        {% if user.user_type != 'employer' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'notifications' %}"><i class="bi bi-bell"></i> Notifications</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'company_list' %}">Companies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'notifications' %}">Notifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            <a class="nav-link" href="{% url 'register' %}"><i class="bi bi-person-plus"></i> Register</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -57,11 +87,19 @@
     </header>
 
     <main role="main" class="container mt-4">
+        {% if user.is_authenticated %}
+            {% if user.user_type == 'employer' %}
+                <h1 class="text-center">Employer Dashboard</h1>
+            {% else %}
+                <h1 class="text-center">Jobseeker Dashboard</h1>
+            {% endif %}
+        {% endif %}
+        
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer class="bg-dark text-white mt-5 py-3">
+    <footer class="footer-dark text-white mt-5 py-3">
         <div class="container text-center">
             <p>&copy; 2024 Job Board</p>
         </div>

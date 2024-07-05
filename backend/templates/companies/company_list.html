@@ -3,12 +3,19 @@
 {% block content %}
 <div class="container">
     <h2 class="mt-4">Companies</h2>
-    <ul class="list-group mt-3">
+    <div class="row mt-3">
         {% for company in companies %}
-            <li class="list-group-item">
-                <a href="{% url 'company_detail' company.pk %}">{{ company.name }}</a>
-            </li>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ company.name }}</h5>
+                    <p class="card-text">Industry: {{ company.industry }}</p>
+                    <p class="card-text">Location: {{ company.location }}</p>
+                    <a href="{% url 'company_detail' company.pk %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
