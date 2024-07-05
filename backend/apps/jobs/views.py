@@ -39,6 +39,25 @@ def job_apply(request, job_id):
         form = ApplicationForm()
     return render(request, 'jobs/apply_job.html', {'form': form, 'job': job})
 
+def job_search(request):
+    title = request.GET.get('title')
+    location = request.GET.get('location')
+
+    # Example query logic, adjust as per your application's needs
+    if title and location:
+        jobs = Job.objects.filter(title__icontains=title, location__icontains=location)
+    elif title:
+        jobs = Job.objects.filter(title__icontains=title)
+    elif location:
+        jobs = Job.objects.filter(location__icontains=location)
+    else:
+        jobs = Job.objects.all()
+
+    context = {
+        'jobs': jobs,
+    }
+    return render(request, 'jobs/job_search.html', context)
+
 
 def home(request):
     return render(request, 'jobs/home.html')

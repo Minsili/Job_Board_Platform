@@ -2,33 +2,45 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
+    <!-- Search Form -->
+    <div class="row mb-4">
         <div class="col-lg-6">
             <h2>Welcome to the Job Board Platform</h2>
             <p>Find the best jobs and companies here.</p>
         </div>
         <div class="col-lg-6">
-            <!-- Placeholder for an image -->
-            <img src="https://via.placeholder.com/600x400" class="img-fluid" alt="Job Board Platform">
+            <form class="form-inline" method="GET" action="{% url 'job_search' %}">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search by title..." name="title">
+                    <input type="text" class="form-control ml-2" placeholder="Location..." name="location">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
-    <hr>
-
-    <div class="row mt-4">
+    <!-- Job Listings -->
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Search Results</h3>
+            {% if jobs %}
+                <ul class="list-group">
+                    {% for job in jobs %}
+                        <li class="list-group-item">
+                            <h5><a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h5>
+                            <p class="mb-1">by {{ job.company.name }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No jobs found matching your search criteria.</p>
+            {% endif %}
+        </div>
         <div class="col-lg-6">
             <h3>About Us</h3>
             <p>The Job Board Platform is dedicated to connecting job seekers with employers, facilitating seamless recruitment processes, and enhancing career opportunities.</p>
-        </div>
-        <div class="col-lg-6">
-            <h3>Advantages of Using Our Platform</h3>
-            <ul>
-                <li>Wide range of job listings across various industries.</li>
-                <li>User-friendly interface for easy navigation and job search.</li>
-                <li>Opportunities to explore and apply to jobs from top companies.</li>
-                <li>Real-time updates on job openings and application statuses.</li>
-                <li>Secure and efficient platform for both employers and job seekers.</li>
-            </ul>
         </div>
     </div>
 
@@ -44,7 +56,6 @@
             </ul>
         </div>
         <div class="col-lg-6">
-            <!-- Placeholder for an additional image or graphic -->
             <img src="https://via.placeholder.com/600x400" class="img-fluid" alt="Contact Us">
         </div>
     </div>
