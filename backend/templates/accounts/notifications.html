@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Notifications</h2>
+    <ul class="list-group">
+        {% for notification in notifications %}
+        <li class="list-group-item {% if not notification.is_read %}font-weight-bold{% endif %}">
+            {{ notification.message }}
+        </li>
+        {% empty %}
+        <li class="list-group-item">No notifications</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Application Details</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <p class="card-text"><strong>Applicant:</strong> {{ application.applicant.username }}</p>
+            <p class="card-text"><strong>Job:</strong> {{ application.job.title }}</p>
+            <p class="card-text"><strong>Status:</strong> <span class="badge badge-primary">{{ application.get_status_display }}</span></p>
+            <p class="card-text"><strong>Cover Letter:</strong> {{ application.cover_letter }}</p>
+            <p class="card-text"><strong>Resume:</strong> <a href="{{ application.resume.url }}">Download</a></p>
+
+            {% if application.status == 'pending' %}
+                <form class="mt-3" action="{% url 'approve_application' application.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">Approve</button>
+                </form>
+                <form class="mt-2" action="{% url 'reject_application' application.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

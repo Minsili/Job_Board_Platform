@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Profile</h2>
+            <p>Welcome, {{ user.username }}!</p>
+
+            <h3>Personal Information</h3>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+                <li class="list-group-item"><strong>First Name:</strong> {{ user.first_name }}</li>
+                <li class="list-group-item"><strong>Last Name:</strong> {{ user.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <!-- Add more fields as per your User model -->
+            </ul>
+
+            <a href="{% url 'update_profile' %}" class="btn btn-primary mt-3">Update Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
